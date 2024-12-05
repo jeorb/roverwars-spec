@@ -1,6 +1,9 @@
 use std::io;
-
 use serde::{Deserialize, Serialize};
+
+use map::Map;
+
+mod map;
 
 fn main() {
     let stdin = std::io::stdin();
@@ -21,42 +24,6 @@ enum Action {
     Drop,
     Wait,
 }
-
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
-#[serde(rename_all = "snake_case")]
-enum Tile {
-    Sand,
-    Wall,
-    Unknown,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Map {
-    id: String,
-    tiles: Vec<Vec<Tile>>,
-}
-
-impl Default for Map {
-    fn default() -> Self {
-        let mut tiles = Vec::new();
-        for y in 0..10 {
-            let mut row = Vec::new();
-            for x in 0..10 {
-                row.push(if x == 0 || x == 9 || y == 0 || y == 9 { 
-                    Tile::Wall
-                } else {
-                    Tile::Sand
-                });
-            }
-            tiles.push(row);
-        }
-        Map {
-            id: "0".to_owned(),
-            tiles: tiles,
-        }
-    }
-}
-
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Message {
